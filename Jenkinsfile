@@ -25,8 +25,8 @@ pipeline {
           }
         stage ("Run docker compose") {
             steps {
-                 dir("backend"){
-                    sh " docker compose up -d"
+                 dir("backend_jenkins"){
+                    sh " docker-compose up -d"
                 }                
             }
         }
