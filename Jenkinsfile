@@ -1,36 +1,34 @@
-pipeline { 
-  agent any
-  tools {
-    maven 'maven'
-  }
-  stages {
-    stage ("Clean up "){
-      steps {
-        deleteDir()
-      }
+pipeline {
+    agent any 
+    tools { 
+        maven 'maven'
     }
     
-   stages ("Clone repo") {
-      steps {
-        sh "git clone https://github.com/alahammami2/backend_jenkins.git"
-      }
-    }
-    
-   stage ("Generate backend image") {
-      steps {
-        dir ("backend"){
-          sh "mvn clean install" 
-          sh "docker build -t backend ."
+    stages {
+        stage ("Clean up"){
+            steps {
+                deleteDir()
+            }
         }
-      }
-    }
-    
-   stage ("Run docker compose ") {
-      steps { 
-        dir ("backend") {
-          sh " docker compose up -d"
+        stage ("Clone repo"){
+            steps {
+                sh "git clone https://github.com/alahammami2/backend_jenkins.git"
+            }
         }
-      }
+        stage ("Generate backend image") {
+              steps {
+                   dir("backend"){
+                      sh "mvn clean install"
+                      sh "docker build -t backend ."
+                  }                
+              }
+          }
+        stage ("Run docker compose") {
+            steps {
+                 dir("backend"){
+                    sh " docker-compose up -d"
+                }                
+            }
+        }
     }
-  }
 }
