@@ -9,12 +9,14 @@ pipeline {
         deleteDir()
       }
     }
-    stages ("Clone repo") {
+    
+   stages ("Clone repo") {
       steps {
         sh "git clone https://github.com/alahammami2/backend_jenkins.git"
       }
     }
-    stage ("Generate backend image") {
+    
+   stage ("Generate backend image") {
       steps {
         dir ("backend"){
           sh "mvn clean install" 
@@ -22,7 +24,8 @@ pipeline {
         }
       }
     }
-    stage ("Run docker compose ") {
+    
+   stage ("Run docker compose ") {
       steps { 
         dir ("backend") {
           sh " docker compose up -d"
